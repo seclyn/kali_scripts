@@ -76,6 +76,7 @@ echo --------------------------------------------
 tput setaf 7;
 echo
 nmap $ip -T5 -oN quickmap_$ip
+nmap -sU $ip -T5 -oN nmap_udp_$ip
 echo
 echo
 
@@ -87,10 +88,11 @@ echo ---------------------------------------------------------
 echo Running Nikto scan. Output to nikto_$ip.txt
 echo ---------------------------------------------------------
 tput setaf 7;
-sleep 15
+sleep 10
 echo Checking For HTTP Services . . . .
 if grep "http" quickmap_$ip; then
 	nikto -h $ip -o nikto_$ip.txt -ask no
+	wget http://$ip/robots.txt -O robots_$ip.txt
 else
 	echo No HTTP Services Found On $ip
 	echo No HTTP Services Found on $ip > nikto_NO_HTTP_$ip
@@ -126,7 +128,6 @@ ls -l $workdir/$work
 
 
 #end
-
 
 
 
